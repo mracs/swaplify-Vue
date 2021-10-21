@@ -185,7 +185,7 @@ export default {
           localStorage.setItem('cached_input', source);
         })
         .catch(({ response }) => {
-          this.onError(response.data.detail);
+          this.onError((response.data || {}).detail);
         });
       this.loading = false;
     },
@@ -204,7 +204,7 @@ export default {
           this.share = new URL(`/source/${token}`, window.location.href).href;
         })
         .catch(({ response }) => {
-          this.onError(response.data.detail);
+          this.onError((response.data || {}).detail);
         });
       this.saveLoading = false;
     },
@@ -216,7 +216,7 @@ export default {
           this.source = data.source;
         })
         .catch(({ response }) => {
-          this.onError(response.data.detail);
+          this.onError((response.data || {}).detail);
         });
       this.loading = false;
     },
@@ -233,7 +233,7 @@ export default {
       localStorage.setItem('cached_input', source);
       await axios.patch(`/api/source/${this.getSource}`, { source })
         .catch(({ response }) => {
-          this.onError(response.data.detail);
+          this.onError((response.data || {}).detail);
         });
       this.saveLoading = false;
     },
@@ -266,7 +266,7 @@ export default {
     },
 
     onError(msg) {
-      this.error = '';
+      this.error = null;
       this.share = '';
       this.response = { body: '', error: null };
       this.snackbar = {
